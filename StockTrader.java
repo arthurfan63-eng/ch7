@@ -74,8 +74,51 @@ public static double simulate(int[] years, int[] months, double[] prices) {
 
 
 public static String decide(double[] history, boolean holding, double boughtAt) {
-    return "BUY";
+    return buyHighSellLow(history,holding,boughtAt);
 }
+
+
+
+
+public static String buyHighSellLow( double[] history, boolean holding, double boughtAt){
+	int len =history.length-1 ;
+
+	if(len<3){return "HOLD";}	
+
+	if(history[len]>history[len-1]){
+		if(history[len-1]>history[len-2]){
+		return "BUY";
+	}	
+}
+	if(boughtAt * 1.1<=history[len]){
+		return "SELL";
+	}	
+
+return"HOLD";
+}
+public static String BUYBUYBUY( double[] history, boolean holding, double boughtAt){
+return"BUY";
+}
+public static String MMAITworks( double[] history, boolean holding, double boughtAt){
+	int len =history.length-1 ;
+
+	if(len<3){return "HOLD";}	
+
+	if(history[len]>history[len-1]){
+		if(history[len-1]>history[len-2]){
+		return "BUY";
+	}	
+}
+	if(boughtAt * 1.1<=history[len]){
+		return "SELL";
+	}	
+
+return"HOLD";
+}
+
+
+
+
 
 
 
@@ -93,27 +136,31 @@ public static void loadData(Scanner in, int[] years, int[] months, double[] pric
 
 }
 public static int indexOfLowest(double[] prices){
-	int lowest = 100000;
+	double lowest = 100000;
+	int tracker = 0;
 	for(int i = 0; i<prices.length;i++){
 	if (prices[i]<lowest){
-	lowest = i;	
+	lowest = prices[i];
+	tracker = i;	
 	}
 		
 	}
 
- return lowest;
+ return tracker;
 }
 
 public static int indexOfHighest(double[] prices){
-	int hi = 0;
+	double hi = 0;
+		int tracker = 0;
 	for(int i = 0; i<prices.length;i++){
 	if (prices[i]>hi){
-	hi = i;	
+	hi = prices[i];
+	tracker = i;	
 	}
 		
 	}
 
- return hi;
+ return tracker;
 }
  
 
@@ -138,4 +185,3 @@ public static void printData(int[] years, int[] months, double[] prices, int num
  }
 }
 }
-
