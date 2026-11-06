@@ -1,3 +1,26 @@
+
+
+
+
+
+
+
+
+// 1. i would say that the dip buyer is the best in general with lots of wins and very few losses
+//2.  it didnt do well in falling.txt it kept buying and buying, but the stock never recovered.
+//3. in appl_2000_2010.txt apple barely hade manyb dips, while maintaining a strong consistant growth with lots oof informations. when there is a lot of info, the moving average thrives.
+//4.  my strategy is pretty reilient because its just moving average with a random aspect to it in order to muffle wins and losses. if i changed it, on some it will probably do worse on others because each stock has unique movements. 
+
+
+
+
+
+
+
+
+
+
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
