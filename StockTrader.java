@@ -2,11 +2,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.Scanner;
-
+import java.util.Random;
 public class StockTrader {
-
+public static final int whichOne = 1;
     public static void main(String[] args) throws FileNotFoundException {
-        Scanner in = new Scanner(new File("tiny.txt"));
+        Scanner in = new Scanner(new File("sp500_1990_2025.txt"));
         String symbol = in.next();
         int n = in.nextInt();
         
@@ -74,19 +74,27 @@ public static double simulate(int[] years, int[] months, double[] prices) {
 
 
 public static String decide(double[] history, boolean holding, double boughtAt) {
-    return buyHighSellLow(history,holding,boughtAt);
+	if (whichOne == 2){
+    return dipBuyer(history,holding,boughtAt);
+ }else if(whichOne == 1){
+  return buyAndHold(history,holding,boughtAt);
+}else if(whichOne == 3){
+ return movingAverage(history,holding,boughtAt);
+} else{
+  return myStrategy(history,holding,boughtAt);
+}
 }
 
 
 
 
-public static String buyHighSellLow( double[] history, boolean holding, double boughtAt){
+public static String dipBuyer( double[] history, boolean holding, double boughtAt){
 	int len =history.length-1 ;
 
-	if(len<3){return "HOLD";}	
+	if(len<2){return "HOLD";}	
 
-	if(history[len]>history[len-1]){
-		if(history[len-1]>history[len-2]){
+	if(history[len]<history[len-1]){
+		if(history[len-1]<history[len-2]){
 		return "BUY";
 	}	
 }
@@ -96,26 +104,61 @@ public static String buyHighSellLow( double[] history, boolean holding, double b
 
 return"HOLD";
 }
-public static String BUYBUYBUY( double[] history, boolean holding, double boughtAt){
+public static String buyAndHold( double[] history, boolean holding, double boughtAt){
 return"BUY";
 }
-public static String MMAITworks( double[] history, boolean holding, double boughtAt){
+public static String movingAverage( double[] history, boolean holding, double boughtAt){
 	int len =history.length-1 ;
 
-	if(len<3){return "HOLD";}	
+	if(len<11){return "HOLD";}	
+	double avg = (history[len] +history[len-1] + history[len-2]+ history[len-3] + history[len-4] + history[len-5] + history[len-6] + history[len-7] + history[len-8] + history[len-9] + history[len-10] + history[len-11])/12;
 
-	if(history[len]>history[len-1]){
-		if(history[len-1]>history[len-2]){
+	if(history[len]> avg && holding == false){
+
 		return "BUY";
-	}	
+	
 }
-	if(boughtAt * 1.1<=history[len]){
+	if(history[len]< avg && holding == true){
+
 		return "SELL";
-	}	
+	
+}	
 
 return"HOLD";
 }
+public static String myStrategy( double[] history, boolean holding, double boughtAt){
+	int len =history.length-1 ;
+	
+	Random rand = new Random();
+	double num = rand.nextDouble(); 
 
+
+	if(len<11){return "HOLD";}	
+	double avg = (history[len] +history[len-1] + history[len-2]+ history[len-3] + history[len-4] + history[len-5] + history[len-6] + history[len-7] + history[len-8] + history[len-9] + history[len-10] + history[len-11])/12;
+
+	if(history[len]> avg && holding == false){
+
+		return "BUY";
+	
+}
+	if(history[len]< avg && holding == true){
+
+		return "SELL";
+	
+}	
+
+
+
+if(num>.5){
+	return "BUY";
+}	
+
+if(num<.5){
+	return "SELL";
+}	
+
+return"HOLD";
+}
 
 
 
